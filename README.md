@@ -55,7 +55,7 @@ void loop(){
 }
 ```
 
-Defina as variáveis que deseja usar (você precisará defini-las no arquivo do Simulink depois):
+### Defina as variáveis que deseja usar (você precisará defini-las no arquivo do Simulink depois):
 
 ```cpp
 #define BAUDRATE    115200  // baudrate definido no Simulink
