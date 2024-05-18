@@ -2,6 +2,9 @@
 #define SIMULINKSERIAL
 #include <Arduino.h>
 
+// Autor: Alison de Oliveira Tristao
+// Email: AlisonTristao@hotmail.com
+
 // converte byte para o valor
 template <class TYPE>
 union typeUnion_t {
