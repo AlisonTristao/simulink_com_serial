@@ -140,5 +140,7 @@ Isso garante que o seu loop ficará com a mesma taxa de amostragem que definiu n
 
 - Defina o tipo do dado recebido, o *header* 'A', o *footer* '\n' e em *data size* a quatidade de dados recebidos em uma matriz coluna.
 
+- - [ ] **Importante deixar definido para mandeter o ultimo valor lido quando não consegue ler algo.**
+
 # Utilizando o código e o arquivo de exemplo, ao abrir o scope, você terá esse plot:
 ![Config](imagens/plot_ex.png)
