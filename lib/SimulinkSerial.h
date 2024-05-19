@@ -2,14 +2,14 @@
 #define SIMULINKSERIAL
 #include <Arduino.h>
 
-// Autor: Alison de Oliveira Tristao
+// Author: Alison de Oliveira Tristao
 // Email: AlisonTristao@hotmail.com
 
 // converte byte para o valor
 template <class TYPE>
 union typeUnion_t {
-    TYPE value;                 // valor recebido
-    byte bytes[sizeof(TYPE)];   // valor em bytes
+    TYPE value;                 // received value
+    byte bytes[sizeof(TYPE)];   // received bytes
 };
 
 template <class TYPE>
@@ -23,12 +23,12 @@ private:
     typeUnion_t<TYPE>* data_send; 
     typeUnion_t<TYPE>* data_receive; 
 public:
-    SimulinkSerial(const uint32_t BaudRate,    // BaudRate da comunicação serial
-                   const uint8_t len_receive,  // quantidade de elementos recebidos
-                   const uint8_t len_send,     // quantidade de elementos enviados
-                   const char header,          // header da mensagem enviada e recebida
-                   const char footer,          // footer da mensagem enviada e recebida
-                   const uint8_t sampleTime);  // tempo de amostragem em millis 
+    SimulinkSerial(const uint32_t BaudRate,    // BaudRate of the serial communication
+                   const uint8_t len_receive,  // number of elements received
+                   const uint8_t len_send,     // number of elements sent
+                   const char header,          // header of the message sent and received
+                   const char footer,          // footer of the message sent and received
+                   const uint8_t sampleTime);  // sampling time of the system
 
     // destructor
     virtual ~SimulinkSerial(){
@@ -36,21 +36,21 @@ public:
         delete[] data_send;
     };
 
-    // recebe o array de dados
+    // receive a package of bytes
     bool receive_package();
-    TYPE received(uint8_t index);
+    TYPE received(uint8_t index);               // return received bytes converted to value
     TYPE operator[](uint8_t index){ 
         return received(index); 
     }
 
-    // envia um array de dados
-    void to_send(uint8_t index, TYPE data);
+    // send a package of bytes
     void send_package();
+    void to_send(uint8_t index, TYPE data);     // set the value to send converted to bytes
     void operator()(uint8_t index, TYPE data) { 
         to_send(index, data); 
     }
 
-    // espera o tempo de amostragem
+    // wait the sample time
     void wait_sample();
 };
 
@@ -70,22 +70,22 @@ SimulinkSerial<TYPE>::SimulinkSerial(
                 footer(footer), 
                 sampleTime(sampleTime)
 {
-    // inicia a comunicação serial
+    // begin the serial communication
     Serial.begin(BaudRate);
-    // define o tamanho do array recebido 
+    // memory allocation for the data
     data_receive    = new typeUnion_t<TYPE>[len_receive];
     data_send       = new typeUnion_t<TYPE>[len_send];
 }
 
 template <class TYPE>
 bool SimulinkSerial<TYPE>::receive_package(){
-    // recebe a mensagem inteira
+    // receive the message until the footer
     receive = Serial.readStringUntil(footer);
-    // verifica a integridade da mensagem
+    // verify the header and the length of the message
     if (receive[0] == header && receive.length() == len_receive*len_bytes + 1) {
-        // extrai os dados recebidos
-        for (uint8_t i = 0; i < len_receive; i++)       // percorre os dados recebidos
-            for (uint8_t j = 0; j < len_bytes; j++)  // percorre os bytes do dado
+        // convert the bytes to the value
+        for (uint8_t i = 0; i < len_receive; i++)       // walk through the data
+            for (uint8_t j = 0; j < len_bytes; j++)     // walk through the bytes
                 data_receive[i].bytes[j] = (byte) receive[i*len_bytes + j + 1];
         return false;
     }
@@ -106,19 +106,19 @@ void SimulinkSerial<TYPE>::to_send(uint8_t index, TYPE data){
 
 template <class TYPE>
 void SimulinkSerial<TYPE>::send_package(){
-    // envia o header
+    // send the header
     Serial.write('A');
-    // envia os dados
+    // send the data converted to bytes
     for (uint8_t i = 0; i < len_send; i++)
         for (uint8_t j = 0; j < len_bytes; j++)
             Serial.write(data_send[i].bytes[j]);
-    // envia o footer
+    // send the footer
     Serial.write(footer);
 }
 
 template <class TYPE>
 void SimulinkSerial<TYPE>::wait_sample(){
-    // espera o tempo de amostragem
+    // wait the sample time
     while((millis() - currentTime) < sampleTime);
     currentTime = millis();
 }
