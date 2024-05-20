@@ -130,11 +130,11 @@ simSerial.send_package();
 ### *Serial Send*
 ![Config](imagens/com_send.png)
 - O *Header* 'A' definido no codigo é 65 em ASCII e o *Footer* '\n' é a quebra de linha.
-- Defina o tempo de *block* como a metade do tempo de amostragem.
 
 ### *Serial Receive*
 ![Config](imagens/com_receive.png)
 - Defina o tipo do dado recebido, o *header* 'A', o *footer* '\n' e em *data size* a quatidade de dados recebidos em uma matriz coluna.
+- Defina o tempo de *block* como a metade do tempo de amostragem.
 
 # Utilizando o código e o arquivo de exemplo, ao abrir o scope, você terá esse plot:
 ![Config](imagens/plot_ex.png)
