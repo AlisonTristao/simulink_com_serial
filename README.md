@@ -3,6 +3,8 @@
 
 ATENÇÃO: Ao utilizar arduino, double e float possuem 4 bytes, utilize o formato single para converter double de 8 bytes para 4.
 
+Dicas: Utilizar single, diminui achance de perder bytes na comunicação e aumenta a velocidade maxima possivel de amostragem.
+
 ## Configurando a ESP (código disponível na pasta "Example")
 
 ```cpp
@@ -110,7 +112,7 @@ simSerial.send_package();
 
 1. Configure os blocos "*Serial Configuration*", "*Serial Send*" e "*Serial Receive*" com as configurações definidas no código.
 2. Use "*Vector Concatenate*" para concatenar todos os dados que deseja enviar.
-3. "*Zero-Order Hold*" interpola os dados recebido com a taxa de amostragem que deseja (usei 20 millis no exemplo).
+3. "*Zero-Order Hold*" interpola os dados recebido com a taxa de amostragem que deseja (usei 10 millis no exemplo).
 4. Converta seu vector de dados para o tipo definido no código (double no meu caso).
 5. Envie os dados utilizando "*Serial Send*".
 6. Leia os bytes recebidos utilizando "*Serial Receive*".
@@ -123,10 +125,16 @@ simSerial.send_package();
 
 - Defina a porta serial da sua esp32 conectada
 
+### crie uma variavel para salvar a taxa de amostragem definida
+![Sample](imagens/sample.png)
+
+![alt text](image.png)
+
 ### *Serial Send*
 ![Config](imagens/com_send.png)
 
 - O *Header* 'A' definido no codigo é 65 em ASCII e o *Footer* '\n' é a quebra de linha.
+- Defina o tempo de *block* como a metade do tempo de amostragem.
 
 ### *Serial Receive*
 ![Config](imagens/com_receive.png)
