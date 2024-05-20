@@ -109,7 +109,6 @@ simSerial.send_package();
 ## Configurando a comunicação no Simulink (arquivo disponível na pasta "Example")
 
 ![Diagrama](imagens/diagram.png)
-
 1. Configure os blocos "*Serial Configuration*", "*Serial Send*" e "*Serial Receive*" com as configurações definidas no código.
 2. Use "*Vector Concatenate*" para concatenar todos os dados que deseja enviar.
 3. "*Zero-Order Hold*" interpola os dados recebido com a taxa de amostragem que deseja (usei 10 millis no exemplo).
@@ -122,25 +121,21 @@ simSerial.send_package();
 
 ### *Serial Configuration*
 ![Config](imagens/config_serial.png)
-
 - Defina a porta serial da sua esp32 conectada
 
-### crie uma variavel para salvar a taxa de amostragem definida
+### *Zero-Order Hold*
 ![Sample](imagens/sample.png)
-
-![alt text](image.png)
+- crie uma variavel para salvar a taxa de amostragem definida
 
 ### *Serial Send*
 ![Config](imagens/com_send.png)
-
 - O *Header* 'A' definido no codigo é 65 em ASCII e o *Footer* '\n' é a quebra de linha.
 - Defina o tempo de *block* como a metade do tempo de amostragem.
 
 ### *Serial Receive*
 ![Config](imagens/com_receive.png)
-
 - Defina o tipo do dado recebido, o *header* 'A', o *footer* '\n' e em *data size* a quatidade de dados recebidos em uma matriz coluna.
 
 # Utilizando o código e o arquivo de exemplo, ao abrir o scope, você terá esse plot:
 ![Config](imagens/plot_ex.png)
-Para tirar os ruidos você pode implementar um checksum em sua mensagem, verificando a integridade dos números recebidos.
+Para tirar os ruidos, você pode implementar um checksum em sua mensagem, verificando a integridade dos números recebidos.
