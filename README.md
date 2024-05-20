@@ -3,7 +3,7 @@
 
 ATENÇÃO: Ao utilizar arduino, double e float possuem 4 bytes, utilize o formato single para converter double de 8 bytes para 4.
 
-Dicas: Utilizar single, diminui achance de perder bytes na comunicação e aumenta a velocidade maxima possivel de amostragem.
+Dicas: Utilizar single, diminui a chance de perder bytes na comunicação e aumenta a velocidade maxima possivel de amostragem.
 
 ## Configurando a ESP (código disponível na pasta "Example")
 
@@ -125,7 +125,7 @@ simSerial.send_package();
 
 ### *Zero-Order Hold*
 ![Sample](imagens/sample.png)
-- crie uma variavel para salvar a taxa de amostragem definida
+- Crie uma variavel para salvar a taxa de amostragem definida
 
 ### *Serial Send*
 ![Config](imagens/com_send.png)
