@@ -1,7 +1,7 @@
 # simulink_com_serial
- - Serial communication library with Esp32 and matlab simulink
+ - Serial communication library with Esp32/Arduino and matlab simulink
 
-**Por algum motivo obscuro fica bugado com Arduino Uno**
+ATENÇÃO: Ao utilizar arduino, double e float possuem 4 bytes, utilize o formato single para converter double de 8 bytes para 4.
 
 ## Configurando a ESP (código disponível na pasta "Example")
 
@@ -13,12 +13,12 @@
 #define LEN_SEND    4       // quantidade de elementos enviados
 #define HEADER      'A'     // header da mensagem
 #define FOOTER      '\n'    // footer da mensagem
-#define SAMPLETIME  20      // tempo de amostragem em millis
 
-SimulinkSerial<double> simSerial(BAUDRATE, LEN_RECEIVE, LEN_SEND, HEADER, FOOTER, SAMPLETIME);
+SimulinkSerial<double> simSerial(BAUDRATE, LEN_RECEIVE, LEN_SEND, HEADER, FOOTER);
 
 void setup(){
-    // nao precisa fazer nada
+    // inicia a comunicação serial
+    simSerial.init();
 
     // CUIDADO!
     // nao use Serial.begin() com outro baudrate aqui
@@ -49,9 +49,6 @@ void loop(){
 
     // envia os dados
     simSerial.send_package();
-
-    // espera o tempo de amostragem
-    simSerial.wait_sample();
 }
 ```
 
@@ -63,22 +60,25 @@ void loop(){
 #define LEN_SEND    4       // quantidade de elementos enviados
 #define HEADER      'A'     // header da mensagem
 #define FOOTER      '\n'    // footer da mensagem
-#define SAMPLETIME  20      // tempo de amostragem em millis
 ```
 
 - BAUDRATE é a velocidade da comunicação serial desejada.
 - LEN_RECEIVE e LEN_SEND são a quantidade de dados que deseja enviar e receber na comunicação.
 - HEADER e FOOTER são usados para identificar o começo e o final dos bytes enviados.
-- SAMPLETIME é a taxa de amostragem do seu modelo Simulink.
 
 ### Crie o objeto serial que vai usar no seu código, definindo o tipo de dado que deseja enviar e receber:
 
 ```cpp
-SimulinkSerial<double> simSerial(BAUDRATE, LEN_RECEIVE, LEN_SEND, HEADER, FOOTER, SAMPLETIME);
+SimulinkSerial<double> simSerial(BAUDRATE, LEN_RECEIVE, LEN_SEND, HEADER, FOOTER);
 ```
 No exemplo, estamos usando double, mas você pode definir com int8_t, uint8_t, int16_t, etc.
 
-- [ ] **No seu void setup não precisa configurar nada, mas cuidado, você não pode definir o serial com um baudrate diferente do definido no objeto.**
+### no serial setup use a função init para iniciar o serial com o baudrate definido:
+
+```cpp
+simSerial.init();
+```
+Mas cuidado, não defina novamente o serial com um baudrate diferente.
 
 ### Para receber o pacote de bytes, você usa:
 ```cpp
@@ -104,16 +104,9 @@ simSerial.to_send(3, simSerial.received(3));
 simSerial.send_package();
 ```
 
-### Finalmente, use:
-
-```cpp
-simSerial.wait_sample();
-```
-Isso garante que o seu loop ficará com a mesma taxa de amostragem que definiu no Simulink.
-
 ## Configurando a comunicação no Simulink (arquivo disponível na pasta "Example")
 
-![Diagrama](imagens/matlab_diagram.png)
+![Diagrama](imagens/diagram.png)
 
 1. Configure os blocos "*Serial Configuration*", "*Serial Send*" e "*Serial Receive*" com as configurações definidas no código.
 2. Use "*Vector Concatenate*" para concatenar todos os dados que deseja enviar.
@@ -140,7 +133,6 @@ Isso garante que o seu loop ficará com a mesma taxa de amostragem que definiu n
 
 - Defina o tipo do dado recebido, o *header* 'A', o *footer* '\n' e em *data size* a quatidade de dados recebidos em uma matriz coluna.
 
-- - [ ] **Importante deixar definido para mandeter o ultimo valor lido quando não consegue ler algo.**
-
 # Utilizando o código e o arquivo de exemplo, ao abrir o scope, você terá esse plot:
 ![Config](imagens/plot_ex.png)
+Para tirar os ruidos você pode implementar um checksum em sua mensagem, verificando a integridade dos números recebidos.

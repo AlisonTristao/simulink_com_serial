@@ -5,7 +5,7 @@
 // Author: Alison de Oliveira Tristao
 // Email: AlisonTristao@hotmail.com
 
-// converte byte para o valor
+// union to convert the value to bytes
 template <class TYPE>
 union typeUnion_t {
     TYPE value;                 // received value
@@ -16,7 +16,7 @@ template <class TYPE>
 class SimulinkSerial {
 private:
     const uint32_t BaudRate;
-    const uint8_t len_receive, len_send, len_bytes, sampleTime;
+    const uint8_t len_receive, len_send, len_bytes;
     const char header, footer;
     uint32_t currentTime = 0;
     String receive;
@@ -27,8 +27,12 @@ public:
                    const uint8_t len_receive,  // number of elements received
                    const uint8_t len_send,     // number of elements sent
                    const char header,          // header of the message sent and received
-                   const char footer,          // footer of the message sent and received
-                   const uint8_t sampleTime);  // sampling time of the system
+                   const char footer);         // footer of the message sent and received
+
+    void init(){
+        // begin the serial communication
+        Serial.begin(BaudRate);
+    }
 
     // destructor
     virtual ~SimulinkSerial(){
@@ -49,9 +53,6 @@ public:
     void operator()(uint8_t index, TYPE data) { 
         to_send(index, data); 
     }
-
-    // wait the sample time
-    void wait_sample();
 };
 
 template <class TYPE>
@@ -60,18 +61,14 @@ SimulinkSerial<TYPE>::SimulinkSerial(
                 const uint8_t len_receive, 
                 const uint8_t len_send, 
                 const char header, 
-                const char footer, 
-                const uint8_t sampleTime):  
+                const char footer):  
                 BaudRate(BaudRate), 
                 len_receive(len_receive), 
                 len_send(len_send),
                 len_bytes(sizeof(TYPE)), 
                 header(header), 
-                footer(footer), 
-                sampleTime(sampleTime)
+                footer(footer) 
 {
-    // begin the serial communication
-    Serial.begin(BaudRate);
     // memory allocation for the data
     data_receive    = new typeUnion_t<TYPE>[len_receive];
     data_send       = new typeUnion_t<TYPE>[len_send];
@@ -114,13 +111,6 @@ void SimulinkSerial<TYPE>::send_package(){
             Serial.write(data_send[i].bytes[j]);
     // send the footer
     Serial.write(footer);
-}
-
-template <class TYPE>
-void SimulinkSerial<TYPE>::wait_sample(){
-    // wait the sample time
-    while((millis() - currentTime) < sampleTime);
-    currentTime = millis();
 }
 
 #endif

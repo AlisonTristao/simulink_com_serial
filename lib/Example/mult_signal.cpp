@@ -6,12 +6,12 @@
 #define LEN_SEND    4       // quantidade de elementos enviados
 #define HEADER      'A'     // header da mensagem
 #define FOOTER      '\n'    // footer da mensagem
-#define SAMPLETIME  20      // tempo de amostragem em millis
 
-SimulinkSerial<double> simSerial(BAUDRATE, LEN_RECEIVE, LEN_SEND, HEADER, FOOTER, SAMPLETIME);
+SimulinkSerial<double> simSerial(BAUDRATE, LEN_RECEIVE, LEN_SEND, HEADER, FOOTER);
 
 void setup(){
-    // nao precisa fazer nada
+    // inicia a comunicação serial
+    simSerial.init();
 
     // CUIDADO!
     // nao use Serial.begin() com outro baudrate aqui
@@ -42,7 +42,4 @@ void loop(){
 
     // envia os dados
     simSerial.send_package();
-
-    // espera o tempo de amostragem
-    simSerial.wait_sample();
 }
