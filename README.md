@@ -118,7 +118,7 @@ simSerial.send_package();
 
 ## Configurando a comunicação no Simulink (arquivo disponível na pasta "Example")
 
-![Diagrama](imagens/diagram.png)
+![Diagrama](imagens/geral_diagram.png)
 1. Configure os blocos "*Serial Configuration*", "*Serial Send*" e "*Serial Receive*" com as configurações definidas no código.
 2. Use "*Vector Concatenate*" para concatenar todos os dados que deseja enviar.
 3. "*Zero-Order Hold*" interpola os dados recebido com a taxa de amostragem que deseja (usei 10 millis no exemplo).
