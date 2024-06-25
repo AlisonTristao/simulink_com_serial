@@ -32,6 +32,12 @@ public:
     void init(){
         // begin the serial communication
         Serial.begin(BaudRate);
+
+        // init the arrays
+        data_send = new typeUnion_t<TYPE>[len_send];
+        data_receive = new typeUnion_t<TYPE>[len_receive];
+        for(uint8_t i = 0; i < len_send; i++) data_send[i].value = 0;
+        for(uint8_t i = 0; i < len_receive; i++) data_receive[i].value = 0;
     }
 
     // destructor
@@ -76,8 +82,6 @@ SimulinkSerial<TYPE>::SimulinkSerial(
 
 template <class TYPE>
 bool SimulinkSerial<TYPE>::receive_package(){
-    // verify port availability
-    if (!Serial.available()) return false;
     // receive the message until the footer
     receive = Serial.readStringUntil(footer);
     // verify the header and the length of the message
