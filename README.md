@@ -5,11 +5,13 @@ ATENÇÃO: Ao utilizar arduino, double e float possuem 4 bytes, utilize o format
 
 Dicas: 
     Utilizar single, diminui a chance de perder bytes na comunicação e aumenta a velocidade maxima possivel de amostragem.
+
     Para tirar os ruidos, você pode implementar um checksum em sua mensagem, verificando a integridade dos números recebidos.
 
 ## Configurando a ESP (código disponível na pasta "Example")
 
 ```cpp
+#include <Arduino.h>
 #include <SimulinkSerial.h>
 
 #define BAUDRATE    115200  // baudrate definido no simulink
@@ -38,18 +40,23 @@ void loop(){
     /*
         seu codigo manipulando os dados recebidos vai aqui
 
-        use [index] ou .received(index) para acessar os dados do pacote recebido
-        e   (index, data) ou .to_send(index, data) para adicionar dados no pacote enviado
-    
-        check sum ex:
-        if((simSerial[0] + simSerial[1] + simSerial[2]) != simSerial[3]) return;
+        use [index] para acessar os dados do pacote recebido
+        e   (index, data) para adicionar dados no pacote enviado
+
+        exemplo: 
+        
+        // recebendo um valor no index 0
+        float data0 = simSerial[0];
+
+        // enviando pi como valor no index 0
+        simSerial(0, 3.14159265359);
     */
 
     // define os dados a serem enviados
     simSerial(0, simSerial[0]);
-    simSerial(1, simSerial.received(1));
-    simSerial.to_send(2, simSerial[2]);
-    simSerial.to_send(3, simSerial.received(3));
+    simSerial(1, simSerial[1]);
+    simSerial(2, simSerial[2]);
+    simSerial(3, simSerial[3]);
 
     // envia os dados
     simSerial.send_package();
@@ -76,6 +83,7 @@ void loop(){
 SimulinkSerial<double> simSerial(BAUDRATE, LEN_RECEIVE, LEN_SEND, HEADER, FOOTER);
 ```
 No exemplo, estamos usando double, mas você pode definir com int8_t, uint8_t, int16_t, etc.
+Mas cuidado, não esqueca de mudar no bloco *"Serial Send"*. 
 
 ### no serial setup use a função init para iniciar o serial com o baudrate definido:
 
@@ -92,14 +100,14 @@ A função retorna um valor booleano indicando se recebeu os dados corretamente 
 
 ### Para adicionar dados ao pacote que deseja enviar, você pode utilizar:
 
-[index] ou .received(index) para acessar os dados do pacote recebido.
-(index, data) ou .to_send(index, data) para adicionar dados no pacote enviado.
+[index] para acessar os dados do pacote recebido.
+(index, data) para adicionar dados no pacote enviado.
 
 ```cpp
 simSerial(0, simSerial[0]);
-simSerial(1, simSerial.received(1));
-simSerial.to_send(2, simSerial[2]);
-simSerial.to_send(3, simSerial.received(3));
+simSerial(1, simSerial[1]);
+simSerial(2, simSerial[2]);
+simSerial(3, simSerial[3]);
 ```
 
 ### E então, para enviar o pacote por serial, use:
@@ -117,7 +125,8 @@ simSerial.send_package();
 4. Converta seu vector de dados para o tipo definido no código (double no meu caso).
 5. Envie os dados utilizando "*Serial Send*".
 6. Leia os bytes recebidos utilizando "*Serial Receive*".
-7. Separe os bytes recebidos usando "*Demux*".
+7. Converta os valores recebidos para double.
+8. Separe os bytes recebidos usando "*Demux*".
 
 ## Configuração dos Blocos
 

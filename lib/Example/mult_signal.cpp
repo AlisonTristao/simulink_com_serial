@@ -27,18 +27,23 @@ void loop(){
     /*
         seu codigo manipulando os dados recebidos vai aqui
 
-        use [index] ou .received(index) para acessar os dados do pacote recebido
-        e   (index, data) ou .to_send(index, data) para adicionar dados no pacote enviado
-    
-        check sum ex:
-        if((simSerial[0] + simSerial[1] + simSerial[2]) != simSerial[3]) return;
+        use [index] para acessar os dados do pacote recebido
+        e   (index, data) para adicionar dados no pacote enviado
+
+        exemplo: 
+        
+        // recebendo um valor no index 0
+        float data0 = simSerial[0];
+
+        // enviando pi como valor no index 0
+        simSerial(0, 3.14159265359);
     */
 
     // define os dados a serem enviados
     simSerial(0, simSerial[0]);
-    simSerial(1, simSerial.received(1));
-    simSerial.to_send(2, simSerial[2]);
-    simSerial.to_send(3, simSerial.received(3));
+    simSerial(1, simSerial[1]);
+    simSerial(2, simSerial[2]);
+    simSerial(3, simSerial[3]);
 
     // envia os dados
     simSerial.send_package();

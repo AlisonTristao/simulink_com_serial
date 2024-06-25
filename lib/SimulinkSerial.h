@@ -5,7 +5,7 @@
 // Author: Alison de Oliveira Tristao
 // Email: AlisonTristao@hotmail.com
 
-// union to convert the value to bytes
+// converte byte para o valor
 template <class TYPE>
 union typeUnion_t {
     TYPE value;                 // received value
@@ -76,6 +76,8 @@ SimulinkSerial<TYPE>::SimulinkSerial(
 
 template <class TYPE>
 bool SimulinkSerial<TYPE>::receive_package(){
+    // verify port availability
+    if (!Serial.available()) return false;
     // receive the message until the footer
     receive = Serial.readStringUntil(footer);
     // verify the header and the length of the message
