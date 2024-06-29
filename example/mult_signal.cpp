@@ -37,6 +37,12 @@ void loop(){
 
         // enviando pi como valor no index 0
         simSerial(0, 3.14159265359);
+
+
+        voce tambem pode usar um check sum para verificar
+        a integridade dos dados recebidos, ex:
+
+        if((simSerial[0] + simSerial[1] + simSerial[2]) != simSerial[3]) return;
     */
 
     // define os dados a serem enviados

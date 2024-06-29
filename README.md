@@ -11,7 +11,6 @@ Para tirar os ruidos, você pode implementar um checksum em sua mensagem, verifi
 ## Configurando a ESP (código disponível na pasta "Example")
 
 ```cpp
-#include <Arduino.h>
 #include <SimulinkSerial.h>
 
 #define BAUDRATE    115200  // baudrate definido no simulink
@@ -50,6 +49,12 @@ void loop(){
 
         // enviando pi como valor no index 0
         simSerial(0, 3.14159265359);
+
+
+        voce tambem pode usar um check sum para verificar
+        a integridade dos dados recebidos, ex:
+
+        if((simSerial[0] + simSerial[1] + simSerial[2]) != simSerial[3]) return;
     */
 
     // define os dados a serem enviados
@@ -118,7 +123,7 @@ simSerial.send_package();
 
 ## Configurando a comunicação no Simulink (arquivo disponível na pasta "Example")
 
-![Diagrama](imagens/geral_diagram.png)
+![Diagrama](imagens/config_diagram.png)
 1. Configure os blocos "*Serial Configuration*", "*Serial Send*" e "*Serial Receive*" com as configurações definidas no código.
 2. Use "*Vector Concatenate*" para concatenar todos os dados que deseja enviar.
 3. "*Zero-Order Hold*" interpola os dados recebido com a taxa de amostragem que deseja (usei 10 millis no exemplo).

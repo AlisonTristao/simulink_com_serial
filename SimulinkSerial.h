@@ -83,7 +83,7 @@ bool SimulinkSerial<TYPE>::receive_package(){
     // receive the message until the footer
     String receive = Serial.readStringUntil(footer);
     // verify the header and the length of the message
-    if (receive[0] == header && receive.length() == len_receive*len_bytes + 1) {
+    if (receive[0] == header && receive.length() == static_cast<size_t>(len_receive*len_bytes + 1)) {
         // convert the bytes to the value
         for (uint8_t i = 0; i < len_receive; i++)       // walk through the data
             for (uint8_t j = 0; j < len_bytes; j++)     // walk through the bytes
