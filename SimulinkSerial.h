@@ -32,10 +32,10 @@ public:
         Serial.begin(BaudRate);
 
         // init the arrays
-        data_send = new typeUnion_t<TYPE>[len_send];
-        data_receive = new typeUnion_t<TYPE>[len_receive];
-        for(uint8_t i = 0; i < len_send; i++) data_send[i].value = 0;
-        for(uint8_t i = 0; i < len_receive; i++) data_receive[i].value = 0;
+        data_send =     new typeUnion_t<TYPE>[len_send];
+        data_receive =  new typeUnion_t<TYPE>[len_receive];
+        for(uint8_t i = 0; i < len_send; i++)     data_send[i].value = 0;
+        for(uint8_t i = 0; i < len_receive; i++)  data_receive[i].value = 0;
     }
 
     // destructor
@@ -71,12 +71,7 @@ SimulinkSerial<TYPE>::SimulinkSerial(
                 len_send(len_send),
                 len_bytes(sizeof(TYPE)), 
                 header(header), 
-                footer(footer) 
-{
-    // memory allocation for the data
-    data_receive    = new typeUnion_t<TYPE>[len_receive];
-    data_send       = new typeUnion_t<TYPE>[len_send];
-}
+                footer(footer) {}
 
 template <class TYPE>
 bool SimulinkSerial<TYPE>::receive_package(){
