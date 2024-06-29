@@ -18,8 +18,6 @@ private:
     const uint32_t BaudRate;
     const uint8_t len_receive, len_send, len_bytes;
     const char header, footer;
-    uint32_t currentTime = 0;
-    String receive;
     typeUnion_t<TYPE>* data_send; 
     typeUnion_t<TYPE>* data_receive; 
 public:
@@ -83,7 +81,7 @@ SimulinkSerial<TYPE>::SimulinkSerial(
 template <class TYPE>
 bool SimulinkSerial<TYPE>::receive_package(){
     // receive the message until the footer
-    receive = Serial.readStringUntil(footer);
+    String receive = Serial.readStringUntil(footer);
     // verify the header and the length of the message
     if (receive[0] == header && receive.length() == len_receive*len_bytes + 1) {
         // convert the bytes to the value
