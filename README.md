@@ -19,7 +19,7 @@ Para tirar os ruidos, você pode implementar um checksum em sua mensagem, verifi
 #define HEADER      'A'     // header da mensagem
 #define FOOTER      '\n'    // footer da mensagem
 
-SimulinkSerial<double> simSerial(BAUDRATE, LEN_RECEIVE, LEN_SEND, HEADER, FOOTER);
+SimulinkSerial<float> simSerial(BAUDRATE, LEN_RECEIVE, LEN_SEND, HEADER, FOOTER);
 
 void setup(){
     // inicia a comunicação serial
@@ -85,9 +85,9 @@ void loop(){
 ### Crie o objeto serial que vai usar no seu código, definindo o tipo de dado que deseja enviar e receber:
 
 ```cpp
-SimulinkSerial<double> simSerial(BAUDRATE, LEN_RECEIVE, LEN_SEND, HEADER, FOOTER);
+SimulinkSerial<float> simSerial(BAUDRATE, LEN_RECEIVE, LEN_SEND, HEADER, FOOTER);
 ```
-No exemplo, estamos usando double, mas você pode definir com int8_t, uint8_t, int16_t, etc.
+No exemplo, estamos usando float, mas você pode definir com int8_t, uint8_t, int16_t, etc.
 Mas cuidado, não esqueca de mudar no bloco *"Serial Send"*. 
 
 ### no serial setup use a função init para iniciar o serial com o baudrate definido:
@@ -127,7 +127,7 @@ simSerial.send_package();
 1. Configure os blocos "*Serial Configuration*", "*Serial Send*" e "*Serial Receive*" com as configurações definidas no código.
 2. Use "*Vector Concatenate*" para concatenar todos os dados que deseja enviar.
 3. "*Zero-Order Hold*" interpola os dados recebido com a taxa de amostragem que deseja (usei 10 millis no exemplo).
-4. Converta seu vector de dados para o tipo definido no código (double no meu caso).
+4. Converta seu vector de dados para o tipo definido no código (float no meu caso).
 5. Envie os dados utilizando "*Serial Send*".
 6. Leia os bytes recebidos utilizando "*Serial Receive*".
 7. Converta os valores recebidos para double.
