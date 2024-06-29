@@ -7,7 +7,7 @@
 #define HEADER      'A'     // header da mensagem
 #define FOOTER      '\n'    // footer da mensagem
 
-SimulinkSerial<double> simSerial(BAUDRATE, LEN_RECEIVE, LEN_SEND, HEADER, FOOTER);
+SimulinkSerial<float> simSerial(BAUDRATE, LEN_RECEIVE, LEN_SEND, HEADER, FOOTER);
 
 void setup(){
     // inicia a comunicação serial
