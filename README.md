@@ -19,7 +19,7 @@ Para tirar os ruidos, você pode implementar um checksum em sua mensagem, verifi
 #define HEADER      'A'     // header da mensagem
 #define FOOTER      '\n'    // footer da mensagem
 
-SimulinkSerial<float> simSerial(BAUDRATE, LEN_RECEIVE, LEN_SEND, HEADER, FOOTER);
+SimulinkSerial<double> simSerial(BAUDRATE, LEN_RECEIVE, LEN_SEND, HEADER, FOOTER);
 
 void setup(){
     // inicia a comunicação serial
@@ -85,9 +85,9 @@ void loop(){
 ### Crie o objeto serial que vai usar no seu código, definindo o tipo de dado que deseja enviar e receber:
 
 ```cpp
-SimulinkSerial<float> simSerial(BAUDRATE, LEN_RECEIVE, LEN_SEND, HEADER, FOOTER);
+SimulinkSerial<double> simSerial(BAUDRATE, LEN_RECEIVE, LEN_SEND, HEADER, FOOTER);
 ```
-No exemplo, estamos usando float, mas você pode definir com int8_t, uint8_t, int16_t, etc.
+No exemplo, estamos usando double, mas você pode definir com int8_t, uint8_t, int16_t, etc.
 Mas cuidado, não esqueca de mudar no bloco *"Serial Send"*. 
 
 ### no serial setup use a função init para iniciar o serial com o baudrate definido:
