@@ -1,4 +1,3 @@
-#include <Arduino.h>
 #include <SimulinkSerial.h>
 
 #define BAUDRATE    115200  // baudrate definido no simulink
@@ -10,7 +9,7 @@
 SimulinkSerial<float> simSerial(BAUDRATE, LEN_RECEIVE, LEN_SEND, HEADER, FOOTER);
 
 void setup(){
-    // inicia a comunicação serial
+    // inicia a comunicação serial 
     simSerial.init();
 
     // CUIDADO!
