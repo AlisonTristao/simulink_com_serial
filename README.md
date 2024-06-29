@@ -127,7 +127,7 @@ simSerial.send_package();
 1. Configure os blocos "*Serial Configuration*", "*Serial Send*" e "*Serial Receive*" com as configurações definidas no código.
 2. Use "*Vector Concatenate*" para concatenar todos os dados que deseja enviar.
 3. "*Zero-Order Hold*" interpola os dados recebido com a taxa de amostragem que deseja (usei 10 millis no exemplo).
-4. Converta seu vector de dados para o tipo definido no código (float no meu caso).
+4. Converta seu vector de dados para o tipo definido no código (single = float).
 5. Envie os dados utilizando "*Serial Send*".
 6. Leia os bytes recebidos utilizando "*Serial Receive*".
 7. Converta os valores recebidos para double.
