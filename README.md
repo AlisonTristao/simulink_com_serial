@@ -1,7 +1,7 @@
 # simulink_com_serial
  - Serial communication library with Esp32/Arduino and matlab simulink
 
-ATENÇÃO: Ao utilizar arduino, double e float possuem 4 bytes, utilize o formato single para converter double de 8 bytes para 4.
+ATENÇÃO: Ao utilizar arduino, double e float possuem 4 bytes, utilize o formato single (alterando o bloco de conversão no simulink) para converter double de 8 bytes para 4.
 
 DICA: Para tirar os ruidos, você pode implementar um checksum em sua mensagem, verificando a integridade dos números recebidos.
 
