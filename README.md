@@ -5,6 +5,8 @@ ATENÇÃO: Ao utilizar arduino, double e float possuem 4 bytes, utilize o format
 
 DICA: Para tirar os ruidos, você pode implementar um checksum em sua mensagem, verificando a integridade dos números recebidos.
 
+Se utilizou a biblioteca e gostou, peço que me de uma estrelinha por favorzin. Se tiver dicas de mudanças ou problemas, pode entrar em contato, estou aberto a alterações. Muito Obrigado :)
+
 ## Configurando a ESP (código disponível na pasta "Example")
 
 ```cpp
